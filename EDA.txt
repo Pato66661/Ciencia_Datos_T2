@@ -1,0 +1,76 @@
+import pandas as pd
+
+# Cargar el archivo Excel
+ruta_excel = 'ruta_a_tu_archivo.xlsx'  # Reemplaza con la ruta de tu archivo
+df = pd.read_excel(ruta_excel)
+
+Análisis Ejecutivo: Comportamiento de Clientes y Ventas
+1. Resumen General
+Total de clientes únicos: 5,940
+
+Clientes Normales: 4,752 (80%)
+
+Clientes Premium: 1,188 (20%)
+
+Facturación total:
+
+Premium contribuyen 1.5M (USD) vs Normales con 368K (USD).
+
+Datos limpios: Se eliminaron 34,335 filas duplicadas.
+
+2. Segmentación RFM (Recency, Frequency, Monetary)
+Se identificaron 4 clusters de clientes:
+
+Cluster	Recency (días)	Frecuencia (compras)	Gasto (USD)	Interpretación
+0: Inactivos	390 (alta)	1.58 (baja)	323	Clientes que no compran hace meses.
+1: Leales	24 (baja)	27.33 (alta)	12,724	Clientes frecuentes y de alto valor.
+2: En Riesgo	27 (media)	3.48 (media)	830	Podrían dejar de comprar.
+3: Premium	214 (media-alta)	6.51 (media)	1,894	Gasto alto pero poca frecuencia.
+Hallazgo clave:
+
+Los Clientes Leales (Cluster 1) generan 12.7K USD en promedio, pero representan solo 1,139 clientes.
+
+Los Inactivos (Cluster 0) son el grupo más grande (1,989 clientes), con bajo engagement.
+
+3. Diferencias entre Clientes Normales vs Premium
+Métrica	Clientes Normales	Clientes Premium	Diferencia
+Gasto promedio	775 USD	12,769 USD	16x mayor
+Frecuencia	4 compras	17 compras	4x mayor
+Días activos	5 días	25 días	5x mayor
+Recency	238 días	59 días	4x más recientes
+Insight:
+
+Los Premium son más activos, gastan más y compran más seguido, pero son minoría (20% del total).
+
+4. Patrones de Compras
+Productos más vendidos:
+
+WHITE HANGING HEART T-LIGHT HOLDER (5,919 unidades).
+
+Artículos navideños (CHRISTMAS GLASS BALL, CHERRY LIGHTS).
+
+País principal: Reino Unido (90% de las ventas).
+
+Temporalidad:
+
+Días de mayor venta: Lunes y martes.
+
+Mes pico: Diciembre (navidad).
+
+5. Alertas y Recomendaciones
+Posibles outliers:
+
+Un cliente Premium gastó 2.5M USD (¿error o cliente corporativo?).
+
+Cantidades negativas en Quantity (-1085): revisar devoluciones.
+
+Acciones sugeridas:
+
+Recuperar Inactivos: Campañas con descuentos para el Cluster 0.
+
+Fidelizar Premium: Programas exclusivos (ej: membresías).
+
+Optimizar inventario: Enfocarse en productos estacionales (navidad).
+
+Conclusión
+El 20% de clientes (Premium) genera 80% de los ingresos, pero hay oportunidades para reactivar inactivos y retener a los de riesgo. La segmentación RFM permite priorizar estrategias de marketing personalizado.
