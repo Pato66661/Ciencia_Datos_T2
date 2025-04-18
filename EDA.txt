@@ -73,4 +73,80 @@ Fidelizar Premium: Programas exclusivos (ej: membresías).
 Optimizar inventario: Enfocarse en productos estacionales (navidad).
 
 Conclusión
-El 20% de clientes (Premium) genera 80% de los ingresos, pero hay oportunidades para reactivar inactivos y retener a los de riesgo. La segmentación RFM permite priorizar estrategias de marketing personalizado.
+El 20% de clientes (Premium) genera 80% de los ingresos, pero hay oportunidades para reactivar inactivos y retener a los de riesgo.
+ La segmentación RFM permite priorizar estrategias de marketing personalizado.
+
+Para evaluar el rendimiento computacional del código que compartiste, desglosaré las complejidades temporales de las operaciones principales. Estas evaluaciones ayudarán a identificar las secciones críticas y posibles optimizaciones.
+
+Evaluación del Rendimiento (Complejidad Temporal)
+- Creación de nuevas características:- Operaciones como convertir fechas (pd.to_datetime) y cálculos columna a columna (df['Quantity'] * df['Price']):- Complejidad: O(n) donde n es el número de filas del DataFrame.
+
+
+- Agrupación por año y mes (groupby):- La agrupación en pandas incluye ordenamiento implícito de los datos.- Complejidad: O(n log n).
+
+
+- Entrenamiento del modelo (RandomForestRegressor):- El entrenamiento de un Random Forest depende de:- t: Número de árboles (n_estimators).
+- d: Número de datos de entrenamiento.
+- Complejidad: O(t \* d \* log(d)).
+
+
+- Predicción del modelo:- La predicción es lineal con respecto al número de muestras:- Complejidad: O(t \* m \* f), donde m es el número de muestras y f es el número promedio de características por árbol.
+
+
+- Mapa de correlación (corr y sns.heatmap):- Calcular una matriz de correlación tiene una complejidad basada en las columnas numéricas (k):- Complejidad: O(n \* k^2).
+
+
+- Gráficas (Matplotlib):- Generar gráficos de líneas para cada año y mes:- Complejidad: O(n) para procesar los datos visualizados.
+
+
+- Cálculo del Margen de Error:- El cálculo de estadísticas como la desviación estándar y el puntaje Z:- Complejidad: O(n).
+
+
+
+
+Resumen de Complejidad
+| Sección del Código | Complejidad Temporal | Notas | 
+| Creación de características | O(n) | Lineal con el número de filas. | 
+| Agrupación con groupby | O(n log n) | Escalabilidad con respecto al tamaño de datos. | 
+| Entrenamiento del modelo | O(t * d * log(d)) | Costo alto si hay muchos árboles/datos. | 
+| Predicciones | O(t * m * f) | Escala con datos futuros y número de árboles. | 
+| Mapa de correlación | O(n * k^2) | Escala con columnas numéricas seleccionadas. | 
+| Generación de gráficos | O(n) | Visualización generalmente eficiente. | 
+| Estadísticas del margen de error | O(n) | Depende del número de filas del DataFrame. | 
+
+
+
+Consideraciones para Optimizar
+- Entrenamiento del Modelo:- Reducir el número de árboles en el Random Forest (n_estimators) para disminuir la complejidad.
+- Si tienes muchos datos, considera muestrear un subconjunto para entrenar.
+
+- Procesos de Agrupación:- Si solo necesitas ciertas columnas, asegúrate de filtrar las irrelevantes para mejorar la eficiencia.
+
+- Operaciones Iterativas (como bucles para gráficos):- Combina los datos necesarios en una sola estructura antes de graficar.
+
+- Mapa de Correlación:- Incluye solo las columnas necesarias para el análisis, especialmente en DataFrames con muchas columnas.
+
+1. Error Cuadrático Medio (MSE):
+El MSE (Mean Squared Error) mide la media de los cuadrados de los errores, es decir, la diferencia entre los valores reales y los valores predichos por el modelo.
+
+Interpretación: Un MSE de 5327785586.05 indica que el promedio de los errores al cuadrado es bastante alto, lo cual podría deberse a variaciones en los datos o una escala grande en TotalPrice. Este valor ayuda a detectar cuánto se está equivocando el modelo en promedio (pero al cuadrado).
+
+Desventaja: No es intuitivo, ya que la escala de los errores está amplificada debido al cuadrado.
+
+2. Error Absoluto Medio (MAE):
+El MAE (Mean Absolute Error) mide la media de los valores absolutos de los errores. Este métrica es más intuitiva, pues nos da el promedio de cuánto se desvía el modelo respecto a los valores reales.
+
+Interpretación: El MAE de 49788.72 significa que, en promedio, el modelo se equivoca por unos 49,788.72 unidades monetarias por predicción (asumiendo que el precio esté en una moneda como dólares).
+
+Ventaja: Es más interpretable para datos reales porque no eleva al cuadrado los errores.
+
+3. Coeficiente de Determinación (R²):
+El R² (R-squared) mide qué tan bien las predicciones del modelo se ajustan a los datos reales. Su valor está entre 0 y 1.
+
+Interpretación: Un valor de 0.90 indica que el modelo explica el 90% de la variación en los datos. Esto sugiere que es un modelo muy sólido en términos de ajuste.
+
+Nota: Un R² cercano a 1 es excelente, pero no garantiza que los errores sean pequeños; siempre es necesario revisar métricas como el MAE y MSE.
+
+
+
+
